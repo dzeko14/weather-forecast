@@ -6,6 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import my.dzeko.weatherforecast.factory.MapsViewModelFactory
 import my.dzeko.weatherforecast.repository.LocationRepository
 import my.dzeko.weatherforecast.view.activity.MapsActivity
+import javax.inject.Singleton
 
 @Module
 abstract class MapsActivityModule {
@@ -16,6 +17,7 @@ abstract class MapsActivityModule {
     @Module
     companion object {
         @JvmStatic
+        @Singleton
         @Provides
         fun providesMapsViewModelFactory(locationRepository: LocationRepository) :MapsViewModelFactory{
             return MapsViewModelFactory(locationRepository)
