@@ -2,7 +2,9 @@ package my.dzeko.weatherforecast.view.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,12 +31,16 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MapsViewModel::class.java)
+
+        findViewById<Button>(R.id.weather_forecast_button).setOnClickListener {
+            val intent = Intent(this, WeatherForecastActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

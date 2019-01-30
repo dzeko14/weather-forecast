@@ -1,7 +1,7 @@
 package my.dzeko.weatherforecast.repository
 
 import com.google.android.gms.maps.model.LatLng
-import my.dzeko.weatherforecast.model.AppPreferencesManager
+import my.dzeko.weatherforecast.manager.AppPreferencesManager
 import my.dzeko.weatherforecast.viewmodel.MapsViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
