@@ -1,10 +1,20 @@
 package my.dzeko.weatherforecast.entity
 
-import com.google.gson.annotations.SerializedName
+import my.dzeko.weatherforecast.entity.response.CityResponse
 
 data class City(
     val id : Long,
     val name :String,
     val country :String,
-    @SerializedName("coord") val coordinate : Coordinate
-   )
+    val longitude :Double,
+    val latitude :Double
+    ) {
+    constructor(cityResponse: CityResponse)
+            :this(
+        cityResponse.id,
+        cityResponse.name,
+        cityResponse.country,
+        cityResponse.coordinate.lon,
+        cityResponse.coordinate.lat
+        )
+}

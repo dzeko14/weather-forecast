@@ -5,6 +5,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import my.dzeko.weatherforecast.application.WeatherForecastApp
 import my.dzeko.weatherforecast.di.module.*
+import my.dzeko.weatherforecast.factory.WeatherForecastViewModelFactory
 import javax.inject.Singleton
 
 @Singleton
@@ -15,7 +16,8 @@ import javax.inject.Singleton
         MapsActivityModule::class,
         GsonModule::class,
         OkHttpClientModule::class,
-        RetrofitModule::class
+        RetrofitModule::class,
+        WeatherForecastActivityModule::class
     ]
 )
 interface AppComponent : AndroidInjector<WeatherForecastApp> {
