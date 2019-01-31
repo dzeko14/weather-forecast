@@ -2,14 +2,13 @@ package my.dzeko.weatherforecast.api.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-class ApiKeyInterceptor @Inject constructor() : Interceptor {
+class UnitsFormatInterceptor :Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val newUrl = originalRequest.url()
             .newBuilder()
-            .addQueryParameter("APPID", "32ccc202d581513cd21d2351ddd122a0")
+            .addQueryParameter("units", "metric")
             .build()
 
         val newRequest = originalRequest.newBuilder().url(newUrl).build()

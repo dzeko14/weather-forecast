@@ -33,7 +33,10 @@ class WeatherForecastActivity : DaggerAppCompatActivity() {
         setupRecyclerView()
 
         mViewModel.weatherForecast.observe(this,
-            Observer { wf -> wf?.let{ mAdapter.updateWeatherForecasts(wf) } })
+            Observer { wf -> wf?.let{
+                mAdapter.updateWeatherForecasts(wf)
+                title = "${wf[0].city.name}, ${wf[0].city.country}"
+            } })
     }
 
     private fun setupRecyclerView() {

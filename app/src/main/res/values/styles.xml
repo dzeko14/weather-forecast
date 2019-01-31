@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CurrentWeatherForecastItemStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CurrentWeatherForecastItemStyle.Temperature" parent="CurrentWeatherForecastItemStyle">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="WeatherForecastItemStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>

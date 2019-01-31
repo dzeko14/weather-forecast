@@ -8,4 +8,5 @@
     <string name="pressure_lable">Press:</string>
     <string name="humidity_label">Hum:</string>
     <string name="detail">Detail</string>
+    <string name="celciumDegree">\u2103</string>
 </resources>
