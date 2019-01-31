@@ -66,4 +66,11 @@ dependencies {
 
     //DataBinding
     kapt "androidx.databinding:databinding-compiler:3.3.0"
+
+    //Room
+    def room_version = "1.1.1"
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
 }

@@ -1,9 +1,16 @@
 package my.dzeko.weatherforecast.entity
 
+
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Index
+import android.arch.persistence.room.PrimaryKey
 import my.dzeko.weatherforecast.entity.response.CityResponse
 
+@Entity(indices = [
+    Index(value = arrayOf("name"), unique = true)
+])
 data class City(
-    val id : Long,
+    @PrimaryKey var id : Long,
     val name :String,
     val country :String,
     val longitude :Double,

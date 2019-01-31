@@ -1,5 +1,6 @@
 package my.dzeko.weatherforecast.entity
 
+import my.dzeko.weatherforecast.entity.mapping.WeatherForecastDetailMapping
 import my.dzeko.weatherforecast.entity.response.WeatherForecastResponse
 import my.dzeko.weatherforecast.extension.getTimeString
 import java.util.*
@@ -9,13 +10,13 @@ data class WeatherForecastDetail(
     val temperature :Int,
     val pressure :Int,
     val humidity :Int,
-    val weather :List<Weather>,
+    val weather :Weather,
     var weatherForecast: WeatherForecast? = null,
-    val id :Long = 0
+    var id :Long = 0
 ) {
     val time :String = date.getTimeString()
-    val weatherName = weather[0].name
-    val weatherDescription = weather[0].description
+    val weatherName = weather.name
+    val weatherDescription = weather.description
 
     constructor(response : WeatherForecastResponse)
     :this(
@@ -23,6 +24,18 @@ data class WeatherForecastDetail(
         response.infoResponse.temperature.toInt(),
         response.infoResponse.pressure.toInt(),
         response.infoResponse.humidity.toInt(),
-        response.weather
+        response.weather[0]
+    )
+
+    constructor(mapping: WeatherForecastDetailMapping,
+                weather :Weather,
+                weatherForecast: WeatherForecast?) :this(
+        mapping.date,
+        mapping.temperature,
+        mapping.pressure,
+        mapping.humidity,
+        weather,
+        weatherForecast,
+        mapping.id
     )
 }

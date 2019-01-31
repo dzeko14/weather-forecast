@@ -17,7 +17,9 @@ import javax.inject.Singleton
         GsonModule::class,
         OkHttpClientModule::class,
         RetrofitModule::class,
-        WeatherForecastActivityModule::class
+        WeatherForecastActivityModule::class,
+        DaoModule::class,
+        DataBaseModule::class
     ]
 )
 interface AppComponent : AndroidInjector<WeatherForecastApp> {
