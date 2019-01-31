@@ -15,7 +15,11 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         val formatter = SimpleDateFormat("DD:MMM")
-        val s = formatter.format(Date())
+        val date = Date()
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val s = formatter.format(calendar.time)
         println(s)
     }
 }

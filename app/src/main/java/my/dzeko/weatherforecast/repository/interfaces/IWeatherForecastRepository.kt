@@ -2,8 +2,8 @@ package my.dzeko.weatherforecast.repository.interfaces
 
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Single
-import my.dzeko.weatherforecast.entity.WeatherForecastDay
+import my.dzeko.weatherforecast.entity.WeatherForecast
 
 interface IWeatherForecastRepository {
-    fun getWeatherForecastByLocation(location :LatLng) : Single<List<WeatherForecastDay>>
+    fun getWeatherForecastByLocation(location :LatLng) : Single<List<WeatherForecast>>
 }

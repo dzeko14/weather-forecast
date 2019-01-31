@@ -1,23 +1,32 @@
 package my.dzeko.weatherforecast.entity
 
-import my.dzeko.weatherforecast.entity.response.WeatherForecastResponse
-import java.util.*
 
 data class WeatherForecast(
-    val date : Date,
-    val temperature :Double,
-    val pressure :Double,
-    val humidity :Double,
-    val weather :List<Weather>,
-    var city: City? = null,
+    val dayAndMonth : String,
+    val weatherForecastDetails :List<WeatherForecastDetail>,
+    val city: City,
     val id :Long = 0
 ) {
-    constructor(response :WeatherForecastResponse)
-    :this(
-        Date(response.date * 1000L),
-        response.infoResponse.temperature,
-        response.infoResponse.pressure,
-        response.infoResponse.humidity,
-        response.weather
-    )
+    val minTemperature :Int
+    val maxTemperature :Int
+    val weather :String
+
+    init {
+        weather = weatherForecastDetails[0].weather[0].name
+        var tempMin = weatherForecastDetails[0].temperature
+        var tempMax = weatherForecastDetails[0].temperature
+
+        weatherForecastDetails.forEach {
+            it.weatherForecast = this
+
+            val thisTemp = it.temperature
+            when {
+                tempMax < thisTemp -> tempMax = thisTemp
+                tempMin > thisTemp -> tempMin = thisTemp
+            }
+        }
+
+        minTemperature = tempMin.toInt()
+        maxTemperature = tempMax.toInt()
+    }
 }

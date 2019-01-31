@@ -2,4 +2,10 @@
     <string name="app_name">Weather Forecast</string>
     <string name="title_activity_maps">Map</string>
     <string name="weather_forecast">Weather Forecast</string>
+    <string name="min_temperature">Min:</string>
+    <string name="max_temperature">Max:</string>
+    <string name="temperature_label">Temp:</string>
+    <string name="pressure_lable">Press:</string>
+    <string name="humidity_label">Hum:</string>
+    <string name="detail">Detail</string>
 </resources>

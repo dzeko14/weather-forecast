@@ -5,8 +5,8 @@ import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Single
 import my.dzeko.weatherforecast.api.service.WeatherForecastService
 import my.dzeko.weatherforecast.entity.City
+import my.dzeko.weatherforecast.entity.WeatherForecastDetail
 import my.dzeko.weatherforecast.entity.WeatherForecast
-import my.dzeko.weatherforecast.entity.WeatherForecastDay
 import my.dzeko.weatherforecast.entity.response.WeatherDataResponse
 import my.dzeko.weatherforecast.extension.getDayAndMonthString
 import my.dzeko.weatherforecast.extension.isSameDay
@@ -21,7 +21,7 @@ class ApiWeatherForecastRepository @Inject constructor(
 ) : IWeatherForecastRepository {
 
     @SuppressLint("CheckResult")
-    override fun getWeatherForecastByLocation(location: LatLng): Single<List<WeatherForecastDay>> {
+    override fun getWeatherForecastByLocation(location: LatLng): Single<List<WeatherForecast>> {
         val response = mWeatherForecastService
             .getWeatherForecastByLocation(location.longitude, location.latitude)
 
@@ -31,35 +31,35 @@ class ApiWeatherForecastRepository @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun adaptCityAndWeatherResponseObjects(response :Single<WeatherDataResponse>)
-    : Single<List<WeatherForecastDay>> {
-        return response.flatMap<List<WeatherForecastDay>> { weatherDataRespons ->
+    : Single<List<WeatherForecast>> {
+        return response.flatMap<List<WeatherForecast>> { weatherDataRespons ->
                 val city = City(weatherDataRespons.cityResponse)
 
-                var weatherForecastList = mutableListOf<WeatherForecast>()
+                var weatherForecastList = mutableListOf<WeatherForecastDetail>()
                 var date = Date()
-                val weatherForecastDayList = mutableListOf<WeatherForecastDay>()
+                val weatherForecastDayList = mutableListOf<WeatherForecast>()
 
-                for (wf in weatherDataRespons.list){
-                    val newWF = WeatherForecast(wf).apply { this.city = city }
+                for (wfDetail in weatherDataRespons.list){
+                    val newWFDetail = WeatherForecastDetail(wfDetail)
 
-                    if (date.isSameDay(newWF.date)){
+                    if (date.isSameDay(newWFDetail.date)){
 
-                        weatherForecastList.add(newWF)
+                        weatherForecastList.add(newWFDetail)
 
                     } else {
 
                         if (weatherForecastList.size != 0){
-                            weatherForecastDayList.add(
-                                WeatherForecastDay(
+                            val wf =
+                                WeatherForecast(
                                     date.getDayAndMonthString(),
-                                    weatherForecastList
-                                )
-                            )
+                                    weatherForecastList,
+                                    city)
+                            weatherForecastDayList.add(wf)
                         }
 
-                        date = newWF.date
+                        date = newWFDetail.date
                         weatherForecastList = mutableListOf()
-                        weatherForecastList.add(newWF)
+                        weatherForecastList.add(newWFDetail)
                     }
                 }
 

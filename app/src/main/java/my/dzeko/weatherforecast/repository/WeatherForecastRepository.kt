@@ -1,12 +1,10 @@
 package my.dzeko.weatherforecast.repository
 
 import android.annotation.SuppressLint
-import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import my.dzeko.weatherforecast.entity.WeatherForecastDay
+import my.dzeko.weatherforecast.entity.WeatherForecast
 import my.dzeko.weatherforecast.manager.AppPreferencesManager
 import my.dzeko.weatherforecast.viewmodel.WeatherForecastViewModel
 import javax.inject.Inject
@@ -25,8 +23,8 @@ class WeatherForecastRepository @Inject constructor(
         mApiRepo.getWeatherForecastByLocation(location)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableSingleObserver<List<WeatherForecastDay>>(){
-                override fun onSuccess(t: List<WeatherForecastDay>) {
+            .subscribeWith(object : DisposableSingleObserver<List<WeatherForecast>>(){
+                override fun onSuccess(t: List<WeatherForecast>) {
                     callback.onDataReceived(t)
                 }
 

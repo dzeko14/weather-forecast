@@ -14,6 +14,17 @@ fun Date.isSameDay(other: Date) :Boolean{
 }
 
 fun Date.getDayAndMonthString() :String{
-    val formatter = SimpleDateFormat("DD MMM", Locale.getDefault())
+    val formatter = SimpleDateFormat("MMM", Locale.getDefault())
+    val month = formatter.format(this)
+
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    return "$day $month"
+}
+
+fun Date.getTimeString() :String{
+    val formatter = SimpleDateFormat("HH:MM", Locale.getDefault())
     return formatter.format(this)
 }
