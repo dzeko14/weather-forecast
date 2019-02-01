@@ -9,6 +9,7 @@ import my.dzeko.weatherforecast.entity.WeatherForecast
 import my.dzeko.weatherforecast.manager.AppPreferencesManager
 import my.dzeko.weatherforecast.manager.ConnectionManager
 import my.dzeko.weatherforecast.viewmodel.WeatherForecastViewModel
+import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,8 +51,12 @@ class WeatherForecastRepository @Inject constructor(
                 }
 
                 override fun onError(e: Throwable) {
-                    //Temp
-                    throw e
+                    when(e) {
+                        is HttpException ->
+                            callback.onError("There is something with the server!" +
+                                    " Please, try later!")
+                        else -> callback.onError("Unknown error!")
+                    }
                 }
             })
 

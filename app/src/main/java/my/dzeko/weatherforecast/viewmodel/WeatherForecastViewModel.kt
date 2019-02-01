@@ -11,23 +11,26 @@ class WeatherForecastViewModel @Inject constructor(
 ) : ViewModel() {
 
     val weatherForecast = MutableLiveData<List<WeatherForecast>>()
+    val errorFlag = MutableLiveData<String>()
 
     init {
         mRepo.getWeatherForecast(object : WeatherForecastCallback{
             override fun onDataReceived(weatherForecastResponse: List<WeatherForecast>) {
-                for (i in weatherForecastResponse){
-                    weatherForecast.value = weatherForecastResponse
-                }
+                weatherForecast.value = weatherForecastResponse
             }
 
-            override fun onError() {
-                TODO("not implemented")
+            override fun onError(msg :String) {
+                errorFlag.value = msg
             }
         })
     }
 
+    fun handledError(){
+        errorFlag.value = null
+    }
+
     interface WeatherForecastCallback{
         fun onDataReceived(weatherForecastResponse: List<WeatherForecast>)
-        fun onError()
+        fun onError(msg :String)
     }
 }

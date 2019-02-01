@@ -13,7 +13,8 @@ import java.util.*
         onDelete = ForeignKey.CASCADE
     )],
     indices = [
-    Index(value = arrayOf("city_id"))]
+    Index(value = arrayOf("city_id")),
+    Index(value = arrayOf("date", "city_id"), unique = true)]
 )
 data class WeatherForecastMapping(
     val dayAndMonth : String,

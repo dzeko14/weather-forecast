@@ -1,14 +1,12 @@
 package my.dzeko.weatherforecast.db.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import my.dzeko.weatherforecast.entity.mapping.WeatherForecastMapping
+import java.util.*
 
 @Dao
 interface WeatherForecastDao {
-    @Insert
+    @Insert()
     fun insertWF(wf :WeatherForecastMapping) :Long
 
     @Delete
@@ -22,4 +20,7 @@ interface WeatherForecastDao {
 
     @Query("Delete From 'WeatherForecastMapping' Where date < :currDate")
     fun deleteWFsOlderThanDate(currDate :Long)
+
+    @Query("Select * From 'WeatherForecastMapping' Where date = :date And city_id = :cityId")
+    fun getWFByCityIdAndDate(cityId: Long, date: Date) :WeatherForecastMapping?
 }
