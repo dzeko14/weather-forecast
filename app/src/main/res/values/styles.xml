@@ -23,5 +23,6 @@
 
     <style name="WeatherForecasDetailItemStyle">
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>
