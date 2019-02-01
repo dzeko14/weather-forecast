@@ -79,6 +79,8 @@ class WeatherForecastActivity : DaggerAppCompatActivity() {
         mBinding.isLoading = true
 
         mBinding.executePendingBindings()
+
+        mViewModel.onIntentReceives(intent)
     }
 
     private fun setupRecyclerView() {

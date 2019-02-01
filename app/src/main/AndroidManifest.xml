@@ -50,6 +50,9 @@
         <activity android:name=".view.activity.WeatherForecastDetailActivity"
                   android:parentActivityName=".view.activity.WeatherForecastActivity">
         </activity>
+        <activity android:name=".view.activity.SearchActivity"
+                  android:parentActivityName=".view.activity.MapsActivity">
+        </activity>
     </application>
 
 </manifest>

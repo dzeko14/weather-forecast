@@ -66,4 +66,11 @@ class ApiWeatherForecastRepository @Inject constructor(
                 return@flatMap Single.just(weatherForecastDayList)
         }
     }
+
+    override fun getWeatherForecastByCity(city: String): Single<List<WeatherForecast>> {
+        val response = mWeatherForecastService
+            .getWeatherForecastByCity(city)
+
+        return adaptCityAndWeatherResponseObjects(response)
+    }
 }

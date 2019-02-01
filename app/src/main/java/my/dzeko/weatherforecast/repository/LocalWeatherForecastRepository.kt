@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Completable
 import io.reactivex.Single
 import my.dzeko.weatherforecast.db.ApplicationDataBase
+import my.dzeko.weatherforecast.entity.City
 import my.dzeko.weatherforecast.entity.WeatherForecast
 import my.dzeko.weatherforecast.entity.WeatherForecastDetail
 import my.dzeko.weatherforecast.entity.mapping.WeatherForecastDetailMapping
@@ -31,31 +32,37 @@ class LocalWeatherForecastRepository @Inject constructor(
              val city = cityDao.getCityByLocation(location.longitude, location.latitude)
                  ?: return@fromCallable emptyList<WeatherForecast>()
 
-             val currentDate = Date()
-             weatherForecastDao.deleteWFsOlderThanDate(currDate = currentDate.time)
-
-             val weatherForecastMappings = weatherForecastDao.getWFsByCityId(city.id)
-             val weatherForecasts = mutableListOf<WeatherForecast>()
-
-             for (wfMapping in weatherForecastMappings) {
-                 val wfdsMapping = weatherForecastDetailDao.getWFDByWeatherForecastId(wfMapping.id)
-                 val wfds = mutableListOf<WeatherForecastDetail>()
-
-                 wfdsMapping.forEach { mapping ->
-                     val weather = weatherDao.getWeatherById(mapping.weatherId)
-                     wfds.add(WeatherForecastDetail(mapping, weather, null))
-                 }
-                 val wf = WeatherForecast(
-                     wfMapping,
-                     city,
-                     wfds
-                 )
-                 wfds.forEach { wfd -> wfd.weatherForecast = wf }
-                 weatherForecasts.add(wf)
-             }
-
-             return@fromCallable weatherForecasts
+             cleanOldData()
+             return@fromCallable mapData(city)
         }
+    }
+
+    private fun mapData(city :City) :List<WeatherForecast> {
+        val weatherForecastMappings = weatherForecastDao.getWFsByCityId(city.id)
+        val weatherForecasts = mutableListOf<WeatherForecast>()
+
+        for (wfMapping in weatherForecastMappings) {
+            val wfdsMapping = weatherForecastDetailDao.getWFDByWeatherForecastId(wfMapping.id)
+            val wfds = mutableListOf<WeatherForecastDetail>()
+
+            wfdsMapping.forEach { mapping ->
+                val weather = weatherDao.getWeatherById(mapping.weatherId)
+                wfds.add(WeatherForecastDetail(mapping, weather, null))
+            }
+            val wf = WeatherForecast(
+                wfMapping,
+                city,
+                wfds
+            )
+            wfds.forEach { wfd -> wfd.weatherForecast = wf }
+            weatherForecasts.add(wf)
+        }
+        return weatherForecasts
+    }
+
+    private fun cleanOldData() {
+        val currentDate = Date()
+        weatherForecastDao.deleteWFsOlderThanDate(currDate = currentDate.time)
     }
 
     @SuppressLint("CheckResult")
@@ -100,6 +107,16 @@ class LocalWeatherForecastRepository @Inject constructor(
     fun saveWeatherForecasts(weatherForecastsSingle :Single<List<WeatherForecast>>) :Single<List<WeatherForecast>> {
        return  weatherForecastsSingle.flatMap {wfs ->
             saveWeatherForecasts(wfs)
+        }
+    }
+
+    override fun getWeatherForecastByCity(cityName: String): Single<List<WeatherForecast>> {
+        return Single.fromCallable {
+            val city = cityDao.getCityByName(cityName)
+                ?: return@fromCallable emptyList<WeatherForecast>()
+
+            cleanOldData()
+            return@fromCallable mapData(city)
         }
     }
 }

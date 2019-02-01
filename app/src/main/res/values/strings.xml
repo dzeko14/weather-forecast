@@ -10,4 +10,6 @@
     <string name="detail">Detail</string>
     <string name="celciumDegree">\u2103</string>
     <string name="no_data_found">No data found</string>
+    <string name="search_hint">Enter city or region name</string>
+    <string name="search">Search</string>
 </resources>

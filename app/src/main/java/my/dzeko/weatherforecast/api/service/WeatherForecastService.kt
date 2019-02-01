@@ -11,4 +11,7 @@ interface WeatherForecastService {
     fun getWeatherForecastByLocation(@Query("lon") lon :Double,
                                      @Query("lat") lat :Double)
             : Single<WeatherDataResponse>
+
+    @GET("/data/2.5/forecast")
+    fun getWeatherForecastByCity(@Query("q") city :String): Single<WeatherDataResponse>
 }

@@ -16,4 +16,7 @@ interface CityDao{
 
     @Query("Select * From 'City' Where ABS(longitude - :lon) + ABS(latitude - :lat) < 1 LIMIT 1")
     fun getCityByLocation(lon :Double, lat :Double) :City?
+
+    @Query("Select * From 'City' Where name = :city")
+    fun getCityByName(city :String) :City?
 }

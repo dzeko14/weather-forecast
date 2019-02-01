@@ -6,4 +6,5 @@ import my.dzeko.weatherforecast.entity.WeatherForecast
 
 interface IWeatherForecastRepository {
     fun getWeatherForecastByLocation(location :LatLng) : Single<List<WeatherForecast>>
+    fun getWeatherForecastByCity(city :String) : Single<List<WeatherForecast>>
 }
