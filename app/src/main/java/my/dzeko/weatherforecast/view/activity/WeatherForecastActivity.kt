@@ -2,6 +2,7 @@ package my.dzeko.weatherforecast.view.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +17,8 @@ import my.dzeko.weatherforecast.factory.WeatherForecastViewModelFactory
 import my.dzeko.weatherforecast.viewmodel.WeatherForecastViewModel
 import javax.inject.Inject
 
+const val WEATHER_FORECAST_ID = "weather_forecast_id"
+
 class WeatherForecastActivity : DaggerAppCompatActivity() {
 
     @Inject lateinit var viewModelFactory :WeatherForecastViewModelFactory
@@ -24,7 +27,16 @@ class WeatherForecastActivity : DaggerAppCompatActivity() {
 
     private lateinit var mBinding :ActivityWeatherForecastBinding
 
-    private lateinit var mAdapter :WeatherForecastRVAdapter
+    private val mAdapter = WeatherForecastRVAdapter(emptyList(), object : OnWeatherForecastClickListener{
+            override fun onWeatherClick(weatherForecastId: Long) {
+                val intent = Intent(this@WeatherForecastActivity,
+                    WeatherForecastDetailActivity::class.java)
+
+                intent.putExtra(WEATHER_FORECAST_ID, weatherForecastId)
+
+                this@WeatherForecastActivity.startActivity(intent)
+            }
+        })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,18 +77,19 @@ class WeatherForecastActivity : DaggerAppCompatActivity() {
 
         mBinding.isDataFound = true
         mBinding.isLoading = true
+
         mBinding.executePendingBindings()
     }
 
     private fun setupRecyclerView() {
         val layoutManger = LinearLayoutManager(this)
-        mAdapter = WeatherForecastRVAdapter(emptyList())
-
         mBinding.weatherForecastRv.apply {
             layoutManager = layoutManger
             adapter = mAdapter
         }
     }
 
-
+    interface OnWeatherForecastClickListener{
+        fun onWeatherClick(weatherForecastId :Long)
+    }
 }

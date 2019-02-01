@@ -9,12 +9,15 @@ import my.dzeko.weatherforecast.R
 import my.dzeko.weatherforecast.databinding.WeatherForecastCurrentRvItemBinding
 import my.dzeko.weatherforecast.databinding.WeatherForecastRvItemBinding
 import my.dzeko.weatherforecast.entity.WeatherForecast
+import my.dzeko.weatherforecast.view.activity.WeatherForecastActivity
 import java.lang.IllegalArgumentException
 
 private const val CURRENT_FORECAST = 0
 private const val FUTURE_FORECAST = 1
 
-class WeatherForecastRVAdapter(private var mWeatherForecasts :List<WeatherForecast>)
+class WeatherForecastRVAdapter(private var mWeatherForecasts :List<WeatherForecast>,
+                               private val mListener : WeatherForecastActivity.OnWeatherForecastClickListener
+)
     : RecyclerView.Adapter<WeatherForecastRVAdapter.WeatherForecastVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): WeatherForecastVH {
@@ -27,7 +30,7 @@ class WeatherForecastRVAdapter(private var mWeatherForecasts :List<WeatherForeca
                         R.layout.weather_forecast_current_rv_item,
                         parent,
                         false)
-                CurrentWeatherForecastVH(binding)
+                CurrentWeatherForecastVH(binding, mListener)
             }
             FUTURE_FORECAST -> {
                 val binding = DataBindingUtil
@@ -35,7 +38,7 @@ class WeatherForecastRVAdapter(private var mWeatherForecasts :List<WeatherForeca
                         R.layout.weather_forecast_rv_item,
                         parent,
                         false)
-                FutureWeatherForecastVH(binding)
+                FutureWeatherForecastVH(binding, mListener)
             }
 
             else -> throw IllegalArgumentException("Wrong view type")
@@ -66,23 +69,27 @@ class WeatherForecastRVAdapter(private var mWeatherForecasts :List<WeatherForeca
         abstract fun bind(weatherForecast: WeatherForecast)
     }
 
-    class CurrentWeatherForecastVH(private val binding :WeatherForecastCurrentRvItemBinding)
+    class CurrentWeatherForecastVH(private val binding :WeatherForecastCurrentRvItemBinding,
+                                  private val listener: WeatherForecastActivity.OnWeatherForecastClickListener)
         : WeatherForecastVH(binding) {
 
         override fun bind(weatherForecast: WeatherForecast) {
             binding.weatherForecast = weatherForecast
-
+            binding.weatherForecastId = weatherForecast.id
+            binding.listener = listener
             binding.executePendingBindings()
         }
 
     }
 
-    class FutureWeatherForecastVH(private val binding : WeatherForecastRvItemBinding)
+    class FutureWeatherForecastVH(private val binding : WeatherForecastRvItemBinding,
+                                  private val listener: WeatherForecastActivity.OnWeatherForecastClickListener)
         : WeatherForecastVH(binding) {
 
         override fun bind(weatherForecast: WeatherForecast) {
             binding.weatherForecast = weatherForecast
-
+            binding.weatherForecastId = weatherForecast.id
+            binding.listener = listener
             binding.executePendingBindings()
         }
 

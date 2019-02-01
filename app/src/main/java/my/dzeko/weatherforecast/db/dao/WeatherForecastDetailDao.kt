@@ -22,4 +22,7 @@ interface WeatherForecastDetailDao {
 
     @Query("Delete From 'WeatherForecastDetailMapping' Where date < :currDate")
     fun deleteWFDsOlderThanDate(currDate :Long)
+
+    @Query("Select * From 'WeatherForecastDetailMapping' Where weather_forecast_id = :id")
+    fun getWFDsByWeatherForecastId(id :Long) :List<WeatherForecastDetailMapping>
 }

@@ -19,7 +19,8 @@ import javax.inject.Singleton
         RetrofitModule::class,
         WeatherForecastActivityModule::class,
         DaoModule::class,
-        DataBaseModule::class
+        DataBaseModule::class,
+        WeatherForecastDetailActivityModule::class
     ]
 )
 interface AppComponent : AndroidInjector<WeatherForecastApp> {

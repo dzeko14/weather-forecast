@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="my.dzeko.weatherforecast">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
             android:name=".application.WeatherForecastApp"
@@ -42,10 +43,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.activity.WeatherForecastActivity"
-            android:parentActivityName=".view.activity.MapsActivity"/>
-
+        <activity
+                android:name=".view.activity.WeatherForecastActivity"
+                android:launchMode="singleTop"
+                android:parentActivityName=".view.activity.MapsActivity"/>
+        <activity android:name=".view.activity.WeatherForecastDetailActivity"
+                  android:parentActivityName=".view.activity.WeatherForecastActivity">
+        </activity>
     </application>
 
 </manifest>

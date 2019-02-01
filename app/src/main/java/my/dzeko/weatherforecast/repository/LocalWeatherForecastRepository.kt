@@ -72,11 +72,15 @@ class LocalWeatherForecastRepository @Inject constructor(
                     weatherDao.insertWeather(wfd.weather)
                 }
 
-                if(weatherForecastDao
-                        .getWFByCityIdAndDate(weatherForecast.city.id,
-                            weatherForecast.
-                                weatherForecastDetails.first()
-                                .date) != null) continue
+                val wfdMapper = weatherForecastDao
+                    .getWFByCityIdAndDate(weatherForecast.city.id,
+                        weatherForecast.
+                            weatherForecastDetails.first()
+                            .date)
+                if(wfdMapper != null) {
+                    weatherForecast.id = wfdMapper.id
+                    continue
+                }
 
                 val wfMapper = WeatherForecastMapping(weatherForecast)
                 weatherForecast.id = weatherForecastDao.insertWF(wfMapper)
